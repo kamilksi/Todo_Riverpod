@@ -8,6 +8,7 @@ import '../../home/viewmodel/home_model.dart';
 class AddView extends HookConsumerWidget {
   const AddView({super.key});
 
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleEditingController = useTextEditingController();
     final descriptionEditingController = useTextEditingController();
