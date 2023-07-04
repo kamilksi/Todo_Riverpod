@@ -1,5 +1,6 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:todo_riverpod/utils/db_helper.dart';
 
 import '../../../model/task_model.dart';
@@ -27,7 +28,12 @@ class Todo extends _$Todo {
 
     state = await AsyncValue.guard(() async {
       await Future.delayed(
-          Duration(seconds: 1), () => db.insert('todo', task.toJson()));
+          Duration(seconds: 1),
+          () => db.insert(
+                'todo',
+                task.toJson(),
+                conflictAlgorithm: ConflictAlgorithm.replace,
+              ));
       return _fetchTasks();
     });
   }

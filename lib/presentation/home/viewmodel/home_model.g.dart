@@ -6,7 +6,7 @@ part of 'home_model.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoHash() => r'7852751d984a3eba47df5c7c9f96ce9c37cd9a62';
+String _$todoHash() => r'f6b6eada2a914df760fdc4ed4ed82b5ebee2858f';
 
 /// See also [Todo].
 @ProviderFor(Todo)
