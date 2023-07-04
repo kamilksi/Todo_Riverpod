@@ -6,6 +6,7 @@ part 'task_model.freezed.dart';
 @freezed
 class Task with _$Task {
   factory Task({
+    int? id,
     required String title,
     required String description,
     required int completed,
