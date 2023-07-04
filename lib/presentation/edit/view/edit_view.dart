@@ -5,16 +5,25 @@ import 'package:todo_riverpod/model/task_model.dart';
 
 import '../../home/viewmodel/home_model.dart';
 
-class AddView extends HookConsumerWidget {
-  const AddView({super.key});
+class EditView extends HookConsumerWidget {
+  final String title;
+  final String description;
+  final int id;
+  const EditView(
+    this.title,
+    this.description,
+    this.id, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final titleEditingController = useTextEditingController();
-    final descriptionEditingController = useTextEditingController();
+    final titleEditingController = useTextEditingController(text: title);
+    final descriptionEditingController =
+        useTextEditingController(text: description);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Add todo"),
+          title: const Text("Edit todo"),
           backgroundColor: Colors.indigo[300],
         ),
         body: SingleChildScrollView(
@@ -73,11 +82,12 @@ class AddView extends HookConsumerWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  ref.read(todoProvider.notifier).add(
+                  ref.read(todoProvider.notifier).updateTask(
                         Task(
                           title: titleEditingController.text,
                           description: descriptionEditingController.text,
                           completed: 0,
+                          id: id,
                         ),
                       );
                   Navigator.of(context).pop();

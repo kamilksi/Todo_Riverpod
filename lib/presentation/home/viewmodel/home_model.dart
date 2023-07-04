@@ -1,4 +1,3 @@
-import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_riverpod/utils/db_helper.dart';
@@ -28,12 +27,37 @@ class Todo extends _$Todo {
 
     state = await AsyncValue.guard(() async {
       await Future.delayed(
-          Duration(seconds: 1),
+          const Duration(seconds: 1),
           () => db.insert(
                 'todo',
                 task.toJson(),
                 conflictAlgorithm: ConflictAlgorithm.replace,
               ));
+      return _fetchTasks();
+    });
+  }
+
+  Future<void> toggle(int taskID) async {
+    final db = await dbHelper.database;
+    state = await AsyncValue.guard(() async {
+      db.update('todo', {'completed': 1}, where: 'id = ?', whereArgs: [taskID]);
+      return _fetchTasks();
+    });
+  }
+
+  Future<void> delete(int taskID) async {
+    final db = await dbHelper.database;
+    state = await AsyncValue.guard(() async {
+      db.delete('todo', where: 'id = ?', whereArgs: [taskID]);
+      return _fetchTasks();
+    });
+  }
+
+  Future<void> updateTask(Task task) async {
+    final db = await dbHelper.database;
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      db.update('todo', task.toJson(), where: 'id = ?', whereArgs: [task.id]);
       return _fetchTasks();
     });
   }
